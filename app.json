@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "projeto-rafael",
+    "slug": "projeto-rafael",
+    "scheme": "projeto-rafael",
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
