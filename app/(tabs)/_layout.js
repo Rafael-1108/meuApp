@@ -1,4 +1,5 @@
 import { Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabsLayout() {
   return (
@@ -17,6 +18,9 @@ export default function TabsLayout() {
         options={{
           title: "Início",
           headerTitle: "Projeto Base",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -24,6 +28,9 @@ export default function TabsLayout() {
         options={{
           title: "Aulas",
           headerTitle: "Conteúdo",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="book-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -31,6 +38,9 @@ export default function TabsLayout() {
         options={{
           title: "Interface",
           headerTitle: "Interface",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="desktop-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -38,6 +48,9 @@ export default function TabsLayout() {
         options={{
           title: "Sobre",
           headerTitle: "Sobre",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="information-circle-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -45,6 +58,9 @@ export default function TabsLayout() {
         options={{
           title: "Jogos",
           headerTitle: "Jogos",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="game-controller-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -52,6 +68,9 @@ export default function TabsLayout() {
         options={{
           title: "Post",
           headerTitle: "Post",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="document-text-outline" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>

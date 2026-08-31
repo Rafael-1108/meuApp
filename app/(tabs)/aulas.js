@@ -12,7 +12,11 @@ export default function LessonsScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.title}>Trilha de aprendizado</Text>
+        <View style={styles.heroCard}>
+          <Text style={styles.eyebrow}>Seu caminho</Text>
+          <Text style={styles.title}>Trilha de aprendizado</Text>
+        </View>
+
         <Text style={styles.description}>
           Esta aba é destinada a ser um ponto de partida para exercícios e
           atividades práticas. Aqui temos o que será aprendido e utilizado nos apps.
@@ -21,7 +25,9 @@ export default function LessonsScreen() {
         <View style={styles.list}>
           {lessons.map((lesson, index) => (
             <View key={lesson} style={styles.listItem}>
-              <Text style={styles.badge}>{index + 1}</Text>
+              <View style={styles.badgeWrap}>
+                <Text style={styles.badge}>{index + 1}</Text>
+              </View>
               <Text style={styles.listText}>{lesson}</Text>
             </View>
           ))}
@@ -34,48 +40,89 @@ export default function LessonsScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fffaf3",
   },
   container: {
     flex: 1,
-    padding: 24,
-    gap: 16,
+    paddingHorizontal: 20,
+    paddingTop: 24,
+    paddingBottom: 32,
+  },
+  heroCard: {
+    backgroundColor: "#fff",
+    borderRadius: 24,
+    paddingHorizontal: 20,
+    paddingVertical: 18,
+    borderWidth: 1,
+    borderColor: "#f2d9bb",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+    marginBottom: 16,
+  },
+  eyebrow: {
+    alignSelf: "flex-start",
+    backgroundColor: "#fff0df",
+    color: "#d96c00",
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 999,
+    marginBottom: 10,
+    textTransform: "uppercase",
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: "800",
-    color: "#3d2c00",
+    color: "#2d1f12",
+    letterSpacing: -0.6,
   },
   description: {
     fontSize: 16,
     lineHeight: 24,
-    color: "#5f4b1b",
+    color: "#5c4735",
+    marginBottom: 18,
   },
   list: {
-    gap: 12,
+    gap: 14,
   },
   listItem: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
-    padding: 16,
+    backgroundColor: "#ffffff",
     borderRadius: 18,
-    backgroundColor: "#d4d4d4",
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#f1e0cf",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  badgeWrap: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    backgroundColor: "#fff1e3",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 12,
   },
   badge: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    textAlign: "center",
-    lineHeight: 32,
     fontSize: 14,
-    fontWeight: "700",
-    color: "#ffffff",
-    backgroundColor: "#f35900",
+    fontWeight: "800",
+    color: "#d96c00",
   },
   listText: {
     flex: 1,
     fontSize: 15,
-    color: "#3d2c00",
+    fontWeight: "600",
+    color: "#2d1f12",
+    lineHeight: 22,
   },
 });

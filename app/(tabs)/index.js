@@ -9,11 +9,14 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.hero}>
-          <Image
-            source={codeverseLogo}
-            style={styles.logo}
-            resizeMode="contain"
-          />
+          <View style={styles.logoWrap}>
+            <Image
+              source={codeverseLogo}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
+
           <Text style={styles.eyebrow}>React Native + Expo Router</Text>
           <Text style={styles.title}>Seu app já nasce organizado</Text>
           <Text style={styles.description}>
@@ -24,10 +27,12 @@ export default function HomeScreen() {
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>O que vem configurado</Text>
-          <Text style={styles.cardItem}>• JavaScript habilitado</Text>
-          <Text style={styles.cardItem}>• Rotas com expo-router</Text>
-          <Text style={styles.cardItem}>• Abas e modal de exemplo</Text>
-          <Text style={styles.cardItem}>• Scripts para Android, iOS e Web</Text>
+          <View style={styles.list}>
+            <Text style={styles.cardItem}>• JavaScript habilitado</Text>
+            <Text style={styles.cardItem}>• Rotas com expo-router</Text>
+            <Text style={styles.cardItem}>• Abas e modal de exemplo</Text>
+            <Text style={styles.cardItem}>• Scripts para Android, iOS e Web</Text>
+          </View>
         </View>
 
         <Link href="/modal" asChild>
@@ -43,71 +48,102 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#f8fbff",
+    backgroundColor: "#fffaf3",
   },
   container: {
     flex: 1,
-    padding: 24,
-    gap: 20,
+    paddingHorizontal: 20,
+    paddingTop: 24,
+    paddingBottom: 32,
+    gap: 18,
   },
   hero: {
     alignItems: "center",
     gap: 10,
-    padding: 24,
-    borderRadius: 24,
+    padding: 26,
+    borderRadius: 28,
     backgroundColor: "#f35900",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
+    elevation: 5,
   },
-  logo: {
-    width: 120,
-    height: 120,
+  logoWrap: {
+    width: 128,
+    height: 128,
+    borderRadius: 32,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 4,
   },
+  logo: {
+    width: 100,
+    height: 100,
+  },
   eyebrow: {
-    fontSize: 13,
-    fontWeight: "700",
+    fontSize: 12,
+    fontWeight: "800",
     letterSpacing: 1,
     textTransform: "uppercase",
-    color: "#d0e2ff",
+    color: "#ffe4ce",
     textAlign: "center",
   },
   title: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: "800",
     color: "#ffffff",
     textAlign: "center",
+    letterSpacing: -0.6,
   },
   description: {
     fontSize: 16,
     lineHeight: 24,
-    color: "#edf5ff",
+    color: "#fff2e9",
     textAlign: "center",
   },
   card: {
-    gap: 8,
+    gap: 12,
     padding: 20,
-    borderRadius: 20,
+    borderRadius: 22,
+    backgroundColor: "#ffffff",
     borderWidth: 1,
-    borderColor: "#333333"
+    borderColor: "#f4ddc4",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "700",
-    color: "#102542",
+    color: "#2d1f12",
+  },
+  list: {
+    gap: 8,
   },
   cardItem: {
     fontSize: 15,
-    color: "#334e68",
+    color: "#4e3a2b",
+    lineHeight: 22,
   },
   button: {
-    paddingVertical: 16,
+    paddingVertical: 17,
     paddingHorizontal: 20,
     borderRadius: 16,
     alignItems: "center",
-    backgroundColor: "#f35900",
+    backgroundColor: "#d96c00",
+    shadowColor: "#d96c00",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.22,
+    shadowRadius: 10,
+    elevation: 3,
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "800",
     color: "#ffffff",
   },
 });

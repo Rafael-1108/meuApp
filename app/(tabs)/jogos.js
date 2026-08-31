@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 12,
         marginTop: 12,
-        minHeight: 88,
+        minHeight: 0,
         backgroundColor: "#ffffff",
         borderRadius: 12,
         overflow: "hidden",
