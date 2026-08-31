@@ -51,7 +51,11 @@ export default function JogosListarScreen() {
                 {!carregando &&
                     jogos.map((jogo) => (
                         <View key={jogo.id} style={styles.card}>
-                            <Image source={{ uri: jogo.imageUrl }} style={styles.imagem} height={64} width={64} />
+                            <Image
+                                source={{ uri: jogo.imageUrl }}
+                                style={styles.imagem}
+                                resizeMode="cover"
+                            />
                             <View style={styles.info}>
                                 <Text style={styles.titulo}>{jogo.title}</Text>
                                 <Text style={styles.categoria}>
@@ -87,9 +91,9 @@ const styles = StyleSheet.create({
     },
     card: {
         flexDirection: "row",
+        alignItems: "center",
         gap: 12,
         marginTop: 12,
-        minHeight: 0,
         backgroundColor: "#ffffff",
         borderRadius: 12,
         overflow: "hidden",
@@ -101,8 +105,17 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 2,
     },
-    imagem: { width: 88, height: 88, backgroundColor: "#dbe5f0" },
-    info: { flex: 1, justifyContent: "center", paddingVertical: 12, paddingRight: 14 },
+    imagem: {
+        width: 88,
+        height: 88,
+        backgroundColor: "#dbe5f0",
+    },
+    info: {
+        flex: 1,
+        justifyContent: "center",
+        paddingVertical: 12,
+        paddingRight: 14,
+    },
     titulo: { fontSize: 16, fontWeight: "800", color: "#183247" },
     categoria: { fontSize: 13, color: "#647b89", marginTop: 5 },
 });

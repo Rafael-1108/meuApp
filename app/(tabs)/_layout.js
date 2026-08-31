@@ -73,6 +73,16 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="delete"
+        options={{
+          title: "Excluir",
+          headerTitle: "Excluir Jogo",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="trash-outline" size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
