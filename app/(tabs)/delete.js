@@ -12,7 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
-const API_KEY = "cv_Bud-N0aj7kbrbc9yCPKsTQBum7XD0EElCyLbT2K7E8D5SYdh47pazcV8wgRt4_fU";
+const API_KEY = "cv_GVuy5GPvAqsQJTi8sE-4c7xQF8UaoR5Jx43RJcJ7ixDa7vvCVYUxj-RWVvbqbgXg";
 
 const api = axios.create({
   baseURL: "https://api-ds.codeverse.dev.br",
@@ -90,7 +90,7 @@ export default function JogosExcluirScreen() {
         {!carregando &&
           jogos.map((jogo) => (
             <View key={jogo.id} style={styles.card}>
-              <Image source={{ uri: jogo.imageUrl }} style={styles.imagem} />
+              <Image source={{ uri: jogo.imageUrl }} style={styles.imagem} resizeMode="cover" />
               <View style={styles.info}>
                 <Text style={styles.titulo}>{jogo.title}</Text>
                 <Text style={styles.categoria}>

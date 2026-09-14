@@ -4,7 +4,8 @@
     "slug": "projeto-rafael",
     "scheme": "projeto-rafael",
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true

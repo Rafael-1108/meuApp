@@ -3,7 +3,7 @@ import { View, Text, Image, ActivityIndicator, ScrollView, StyleSheet } from "re
 import axios from "axios"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-const API_KEY = "cv_Bud-N0aj7kbrbc9yCPKsTQBum7XD0EElCyLbT2K7E8D5SYdh47pazcV8wgRt4_fU"
+const API_KEY = "cv_GVuy5GPvAqsQJTi8sE-4c7xQF8UaoR5Jx43RJcJ7ixDa7vvCVYUxj-RWVvbqbgXg"
 
 const api = axios.create({
     baseURL: "https://api-ds.codeverse.dev.br",
@@ -59,7 +59,7 @@ export default function JogosListarScreen() {
                             <View style={styles.info}>
                                 <Text style={styles.titulo}>{jogo.title}</Text>
                                 <Text style={styles.categoria}>
-                                    {jogo.category} · {jogo.year}
+                                    {jogo.genero} · {jogo.plataforma}
                                 </Text>
                             </View>
                         </View>

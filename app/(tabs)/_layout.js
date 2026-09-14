@@ -83,6 +83,26 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="put"
+        options={{
+          title: "Editar",
+          headerTitle: "Editar Jogo",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="create-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="jogosById"
+        options={{
+          title: "Buscar por ID",
+          headerTitle: "Buscar Jogo",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="search-outline" size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
