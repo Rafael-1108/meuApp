@@ -25,7 +25,6 @@ const api = axios.create({
   },
 });
 
-// ---------- POST: criar um jogo novo ----------
 export default function JogosCriarScreen() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
