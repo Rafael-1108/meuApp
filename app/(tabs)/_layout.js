@@ -34,16 +34,6 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="interface"
-        options={{
-          title: "Interface",
-          headerTitle: "Interface",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="desktop-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="sobre"
         options={{
           title: "Sobre",
