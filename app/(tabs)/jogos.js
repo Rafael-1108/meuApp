@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { View, Text, Image, ActivityIndicator, ScrollView, StyleSheet } from "react-native"
 import axios from "axios"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -40,7 +40,7 @@ export default function JogosListarScreen() {
         <SafeAreaView style={styles.safeArea}>
             <ScrollView contentContainerStyle={styles.conteudo}>
                 <View style={styles.header}>
-                    <Text style={styles.tituloPagina}>Listar jogos</Text>
+                    <Text style={styles.tituloPagina}>Listar Jogos</Text>
                     <Text style={styles.subtitulo}>GET /api/jogos</Text>
                 </View>
 

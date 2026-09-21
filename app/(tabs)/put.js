@@ -13,13 +13,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
-// Em produção, uma chave de API não deveria morar direto no código do
-// app (dá pra extrair de qualquer APK/IPA instalado). Aqui, como é uma
-// API pública de estudo, deixamos direto no código pra simplificar.
 const API_KEY = "cv_GVuy5GPvAqsQJTi8sE-4c7xQF8UaoR5Jx43RJcJ7ixDa7vvCVYUxj-RWVvbqbgXg";
 
-// Mesma instância do axios usada nas outras telas, com o header já
-// configurado — toda chamada feita com "api" já sai autenticada.
 const api = axios.create({
   baseURL: "https://api-ds.codeverse.dev.br",
   headers: {
@@ -27,23 +22,19 @@ const api = axios.create({
   },
 });
 
-// ---------- PUT: editar um herói existente ----------
-// Pra editar, primeiro precisamos saber QUAL herói — por isso a tela
-// começa mostrando a lista e só depois de tocar em um item é que
-// aparece o formulário, já preenchido com os dados atuais.
 export default function JogosEditarScreen() {
   const [jogos, setJogos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
 
-  // null = mostra a lista; objeto = mostra o formulário de edição
   const [selecionado, setSelecionado] = useState(null);
 
   const [titulo, setTitulo] = useState("");
   const [imagemUrl, setImagemUrl] = useState("");
-  const [estudio, setEstudio] = useState("");
   const [genero, setGenero] = useState("");
   const [plataforma, setPlataforma] = useState("");
+  const [anoLancamento, setAnoLancamento] = useState("");
+  const [desenvolvedora, setDesenvolvedora] = useState("");
   const [salvando, setSalvando] = useState(false);
 
   async function buscarJogos() {
@@ -55,7 +46,7 @@ export default function JogosEditarScreen() {
       });
       setJogos(resposta.data.data);
     } catch (e) {
-      setErro("Não foi possível carregar os jogos. Tente de novo em instantes.");
+      setErro("Não foi possível carregar os jogos. Tente novamente mais tarde.");
     } finally {
       setCarregando(false);
     }
@@ -69,39 +60,59 @@ export default function JogosEditarScreen() {
     setSelecionado(jogo);
     setTitulo(jogo.title ?? "");
     setImagemUrl(jogo.imageUrl ?? "");
-    setEstudio(jogo.estudio ?? "");
     setGenero(jogo.genero ?? "");
     setPlataforma(jogo.plataforma ?? "");
+    setAnoLancamento(jogo.ano_lancamento ? String(jogo.ano_lancamento) : "");
+    setDesenvolvedora(jogo.desenvolvedora ?? "");
   }
 
   async function salvarEdicao() {
     if (!selecionado) return;
-    if (!titulo) {
-      Alert.alert("Preencha pelo menos o título.");
+
+    if (titulo.length < 3 || titulo.length > 120) {
+      Alert.alert("O título é obrigatório e deve ter entre 3 e 120 caracteres.");
+      return;
+    }
+
+    if (!genero) {
+      Alert.alert("O gênero é obrigatório e não pode ficar em branco.");
+      return;
+    }
+
+    if (!plataforma) {
+      Alert.alert("A plataforma é obrigatória e não pode ficar em branco.");
+      return;
+    }
+
+    if (!anoLancamento || isNaN(Number(anoLancamento))) {
+      Alert.alert("O ano de lançamento é obrigatório e deve ser um número válido.");
+      return;
+    }
+
+    if (!desenvolvedora) {
+      Alert.alert("A desenvolvedora é obrigatória e não pode ficar em branco.");
       return;
     }
 
     setSalvando(true);
     try {
-      // PUT substitui o registro inteiro — mandamos todos os campos de
-      // novo. O id vai na URL, não no corpo.
       const resposta = await api.put(`/api/jogos/${selecionado.id}`, {
         title: titulo,
-        imageUrl: imagemUrl,
-        estudio: estudio,
+        imageUrl: imagemUrl ? imagemUrl : null,
         genero: genero,
         plataforma: plataforma,
+        ano_lancamento: Number(anoLancamento),
+        desenvolvedora: desenvolvedora,
       });
 
-      // Esta API devolve o registro atualizado dentro de "data".
-      Alert.alert("Jogo atualizado!", resposta.data.data.title);
+      Alert.alert("Jogo atualizado com sucesso.", resposta.data.data.title);
 
       setSelecionado(null);
-      buscarJogos(); // recarrega a lista com o dado novo
+      buscarJogos();
     } catch (e) {
       Alert.alert(
-        "Não deu pra atualizar o jogo",
-        "A API respondeu com erro. Confere se todos os campos estão certinhos e tenta de novo."
+        "Ocorreu um erro ao atualizar o jogo",
+        "A API respondeu com erro. Confira se todos os campos estão corretos e tente novamente."
       );
     } finally {
       setSalvando(false);
@@ -118,7 +129,7 @@ export default function JogosEditarScreen() {
 
         {!selecionado && (
           <>
-            <Text style={styles.instrucao}>Toque em um jogo pra editar:</Text>
+            <Text style={styles.instrucao}>Toque em um jogo para editar:</Text>
 
             {carregando && <ActivityIndicator style={{ marginVertical: 16 }} />}
             {erro && <Text style={styles.erro}>{erro}</Text>}
@@ -139,7 +150,7 @@ export default function JogosEditarScreen() {
         {selecionado && (
           <>
             <Pressable onPress={() => setSelecionado(null)} style={styles.voltar}>
-              <Text style={styles.voltarTexto}>‹ voltar pra lista</Text>
+              <Text style={styles.voltarTexto}>‹ voltar para a lista</Text>
             </Pressable>
 
             <Text style={styles.rotulo}>Título</Text>
@@ -150,7 +161,7 @@ export default function JogosEditarScreen() {
               placeholder="Ex: Batman"
             />
 
-            <Text style={styles.rotulo}>URL da imagem</Text>
+            <Text style={styles.rotulo}>URL da imagem (opcional)</Text>
             {imagemUrl ? (
               <Image source={{ uri: imagemUrl }} style={styles.imagemPreview} resizeMode="cover" />
             ) : null}
@@ -159,14 +170,6 @@ export default function JogosEditarScreen() {
               value={imagemUrl}
               onChangeText={setImagemUrl}
               placeholder="Ex: https://exemplo.com/batman.jpg"
-            />
-
-            <Text style={styles.rotulo}>Estúdio</Text>
-            <TextInput
-              style={styles.campo}
-              value={estudio}
-              onChangeText={setEstudio}
-              placeholder="Ex: Rocksteady Studios"
             />
 
             <Text style={styles.rotulo}>Gênero</Text>
@@ -183,6 +186,23 @@ export default function JogosEditarScreen() {
               value={plataforma}
               onChangeText={setPlataforma}
               placeholder="Ex: PlayStation 5"
+            />
+
+            <Text style={styles.rotulo}>Ano de Lançamento</Text>
+            <TextInput
+              style={styles.campo}
+              value={String(anoLancamento)}
+              onChangeText={setAnoLancamento}
+              placeholder="Ex: 2015"
+              keyboardType="numeric"
+            />
+
+            <Text style={styles.rotulo}>Desenvolvedora</Text>
+            <TextInput
+              style={styles.campo}
+              value={desenvolvedora}
+              onChangeText={setDesenvolvedora}
+              placeholder="Ex: Rocksteady Studios"
             />
 
             <Pressable style={styles.botao} onPress={salvarEdicao} disabled={salvando}>

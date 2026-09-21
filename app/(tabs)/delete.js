@@ -51,6 +51,7 @@ export default function JogosExcluirScreen() {
     try {
       await api.delete(`/api/jogos/${id}`);
       setJogos((atual) => atual.filter((item) => item.id !== id));
+      Alert.alert("Jogo excluído");
     } catch (error) {
       Alert.alert(
         "Não deu pra excluir o jogo",
@@ -90,11 +91,15 @@ export default function JogosExcluirScreen() {
         {!carregando &&
           jogos.map((jogo) => (
             <View key={jogo.id} style={styles.card}>
-              <Image source={{ uri: jogo.imageUrl }} style={styles.imagem} resizeMode="cover" />
+              <Image
+                source={{ uri: jogo.imageUrl }}
+                style={styles.imagem}
+                resizeMode="cover"
+              />
               <View style={styles.info}>
                 <Text style={styles.titulo}>{jogo.title}</Text>
                 <Text style={styles.categoria}>
-                  {jogo.category} · {jogo.year}
+                  {jogo.genero || jogo.plataforma} · {jogo.ano_lancamento}
                 </Text>
               </View>
 
@@ -140,19 +145,19 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    marginTop: 12,
-    backgroundColor: "#ffffff",
-    borderRadius: 12,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "#d9e3e9",
-    shadowColor: "#12304a",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
+        alignItems: "center",
+        gap: 12,
+        marginTop: 12,
+        backgroundColor: "#ffffff",
+        borderRadius: 12,
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: "#d9e3e9",
+        shadowColor: "#12304a",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.08,
+        shadowRadius: 6,
+        elevation: 2,
   },
   imagem: { width: 88, height: 88, backgroundColor: "#dbe5f0" },
   info: { flex: 1, justifyContent: "center", paddingVertical: 12, paddingRight: 14 },

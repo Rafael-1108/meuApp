@@ -13,13 +13,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
-// Em produção, uma chave de API não deveria morar direto no código do
-// app (dá pra extrair de qualquer APK/IPA instalado). Aqui, como é uma
-// API pública de estudo, deixamos direto no código pra simplificar.
 const API_KEY = "cv_GVuy5GPvAqsQJTi8sE-4c7xQF8UaoR5Jx43RJcJ7ixDa7vvCVYUxj-RWVvbqbgXg";
 
-// Mesma instância do axios usada nas outras telas, com o header já
-// configurado — toda chamada feita com "api" já sai autenticada.
 const api = axios.create({
   baseURL: "https://api-ds.codeverse.dev.br",
   headers: {
@@ -27,7 +22,6 @@ const api = axios.create({
   },
 });
 
-// ---------- GET por id: buscar um jogo específico ----------
 export default function JogosBuscarScreen() {
   const [id, setId] = useState("");
   const [jogo, setJogo] = useState(null);
@@ -37,7 +31,7 @@ export default function JogosBuscarScreen() {
 
   async function buscarPorId() {
     if (!id) {
-      setErro("Digite um id pra buscar.");
+      setErro("Digite um id para buscar.");
       return;
     }
 
@@ -48,15 +42,19 @@ export default function JogosBuscarScreen() {
     setJogo(null);
 
     try {
-      // Sem params e sem .data.data: a rota de um item só devolve o
-      // próprio objeto do jogo direto no corpo da resposta.
       const resposta = await api.get(`/api/jogos/${id}`);
-      setJogo(resposta.data);
+      const dadosDoJogo = resposta.data;
+
+      if (dadosDoJogo && (dadosDoJogo.id)) {
+        setJogo(dadosDoJogo);
+      } else {
+        setNaoEncontrado(true);
+      }
     } catch (e) {
       if (e.response && e.response.status === 404) {
         setNaoEncontrado(true);
       } else {
-        setErro("Não foi possível buscar o jogo. Tente de novo em instantes.");
+        setErro("Não foi possível buscar o jogo. Tente novamente mais tarde.");
       }
     } finally {
       setBuscando(false);
@@ -99,9 +97,19 @@ export default function JogosBuscarScreen() {
             <Image source={{ uri: jogo.imageUrl }} style={styles.imagem} />
             <View style={styles.info}>
               <Text style={styles.titulo}>{jogo.title}</Text>
+              
               <Text style={styles.categoria}>
-                {jogo.estudio} · {jogo.genero} · {jogo.plataforma}
+                {jogo.desenvolvedora} · {jogo.genero}
               </Text>
+              
+              <Text style={styles.categoria}>
+                Plataforma: {jogo.plataforma}
+              </Text>
+              
+              <Text style={styles.categoria}>
+                Ano: {jogo.ano_lancamento}
+              </Text>
+
             </View>
           </View>
         )}
@@ -143,11 +151,19 @@ const styles = StyleSheet.create({
 
   card: {
     flexDirection: "row",
-    gap: 12,
-    marginTop: 16,
-    backgroundColor: "white",
-    borderRadius: 10,
-    overflow: "hidden",
+        alignItems: "center",
+        gap: 12,
+        marginTop: 12,
+        backgroundColor: "#ffffff",
+        borderRadius: 12,
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: "#d9e3e9",
+        shadowColor: "#12304a",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.08,
+        shadowRadius: 6,
+        elevation: 2,
   },
   imagem: { width: 88, height: 88 },
   info: { flex: 1, justifyContent: "center", paddingRight: 12, gap: 2 },

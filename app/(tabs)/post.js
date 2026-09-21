@@ -11,13 +11,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
-// Em produção, uma chave de API não deveria morar direto no código do
-// app (dá pra extrair de qualquer APK/IPA instalado). Aqui, como é uma
-// API pública de estudo, deixamos direto no código pra simplificar.
-const API_KEY = "cv_4Wzbmq_cSP52WLG8CRjj1ipOGbM4G0kFgT-e39euq91PKudf84jTsW3omAWsBsIO";
+const API_KEY = "cv_GVuy5GPvAqsQJTi8sE-4c7xQF8UaoR5Jx43RJcJ7ixDa7vvCVYUxj-RWVvbqbgXg";
 
-// Mesma instância do axios usada na tela de listagem, com o header já
-// configurado — toda chamada feita com "api" já sai autenticada.
 const api = axios.create({
   baseURL: "https://api-ds.codeverse.dev.br",
   headers: {
@@ -27,42 +22,46 @@ const api = axios.create({
 
 export default function JogosCriarScreen() {
   const [titulo, setTitulo] = useState("");
-  const [descricao, setDescricao] = useState("");
   const [imagemUrl, setImagemUrl] = useState("");
-  const [estudio, setEstudio] = useState("");
+  const [desenvolvedora, setDesenvolvedora] = useState("");
   const [plataforma, setPlataforma] = useState("");
   const [genero, setGenero] = useState("");
+  const [anoLancamento, setAnoLancamento] = useState("");
 
   const [enviando, setEnviando] = useState(false);
 
   async function criarJogo() {
-    if (!titulo) {
-      Alert.alert("Preencha pelo menos o título.");
+    if (!titulo || !genero || !plataforma || !anoLancamento || !desenvolvedora) {
+      Alert.alert("Preencha os campos: Título, Gênero, Plataforma, Ano de Lançamento e Desenvolvedora para criar um jogo.");
       return;
     }
 
     setEnviando(true);
     try {
-      const resposta = await api.post("/api/jogos", {
+      const novoJogo = {
         title: titulo,
-        description: descricao,
-        imageUrl: imagemUrl,
-        estudio,
-        plataforma,
-        genero,
-      });
+        imageUrl: imagemUrl || null,
+        desenvolvedora: desenvolvedora,
+        genero: genero,
+        plataforma: plataforma,
+        ano_lancamento: anoLancamento
+      };
 
-      Alert.alert("Jogo criado!", resposta.data.title);
+      const resposta = await api.post("/api/jogos", novoJogo);
+
+      const tituloCriado = resposta.data?.title || resposta.data?.data?.title || titulo;
+      Alert.alert("Jogo criado!", `O jogo "${tituloCriado}" foi cadastrado com sucesso.`);
+
       setTitulo("");
-      setDescricao("");
       setImagemUrl("");
-      setEstudio("");
+      setDesenvolvedora("");
       setPlataforma("");
       setGenero("");
+      setAnoLancamento("");
     } catch (e) {
       Alert.alert(
-        "Não deu pra criar o jogo",
-        "A API respondeu com erro. Confere se todos os campos estão corretos e tenta de novo."
+        "Não foi possível criar o jogo",
+        "A API respondeu com erro. Confira se todos os campos estão corretos e tente novamente."
       );
     } finally {
       setEnviando(false);
@@ -85,14 +84,6 @@ export default function JogosCriarScreen() {
           placeholder="Ex: Run Simulator"
         />
 
-        <Text style={styles.rotulo}>Descrição</Text>
-        <TextInput
-          style={styles.campo}
-          value={descricao}
-          onChangeText={setDescricao}
-          placeholder="Ex: Jogo de corrida de carros"
-        />
-
         <Text style={styles.rotulo}>URL da imagem</Text>
         <TextInput
           style={styles.campo}
@@ -103,11 +94,11 @@ export default function JogosCriarScreen() {
 
         <Text style={styles.secao}>Campos específicos do tema "jogos"</Text>
 
-        <Text style={styles.rotulo}>Estúdio</Text>
+        <Text style={styles.rotulo}>Desenvolvedora</Text>
         <TextInput
           style={styles.campo}
-          value={estudio}
-          onChangeText={setEstudio}
+          value={desenvolvedora}
+          onChangeText={setDesenvolvedora}
           placeholder="Ex: Ubisoft"
         />
 
@@ -125,6 +116,15 @@ export default function JogosCriarScreen() {
           value={plataforma}
           onChangeText={setPlataforma}
           placeholder="Ex: PlayStation 5"
+        />
+
+        <Text style={styles.rotulo}>Ano de Lançamento</Text>
+        <TextInput
+          style={styles.campo}
+          value={anoLancamento}
+          onChangeText={setAnoLancamento}
+          placeholder="Ex: 2024"
+          keyboardType="numeric"
         />
 
         <Pressable style={styles.botao} onPress={criarJogo} disabled={enviando}>
