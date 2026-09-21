@@ -51,6 +51,7 @@ export default function JogosExcluirScreen() {
     try {
       await api.delete(`/api/jogos/${id}`);
       setJogos((atual) => atual.filter((item) => item.id !== id));
+      Alert.alert("Jogo excluído");
     } catch (error) {
       Alert.alert(
         "Não deu pra excluir o jogo",
@@ -90,11 +91,15 @@ export default function JogosExcluirScreen() {
         {!carregando &&
           jogos.map((jogo) => (
             <View key={jogo.id} style={styles.card}>
-              <Image source={{ uri: jogo.imageUrl }} style={styles.imagem} resizeMode="cover" />
+              <Image
+                source={{ uri: jogo.imageUrl }}
+                style={styles.imagem}
+                resizeMode="cover"
+              />
               <View style={styles.info}>
                 <Text style={styles.titulo}>{jogo.title}</Text>
                 <Text style={styles.categoria}>
-                  {jogo.category} · {jogo.year}
+                  {jogo.genero || jogo.plataforma} · {jogo.ano_lancamento}
                 </Text>
               </View>
 

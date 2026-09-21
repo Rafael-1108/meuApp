@@ -72,6 +72,8 @@ export default function JogosEditarScreen() {
     setEstudio(jogo.estudio ?? "");
     setGenero(jogo.genero ?? "");
     setPlataforma(jogo.plataforma ?? "");
+    setAnoLancamento(jogo.ano_lancamento ?? "");
+    setDesenvolvedora(jogo.desenvolvedora ?? "");
   }
 
   async function salvarEdicao() {
